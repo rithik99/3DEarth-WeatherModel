@@ -1,0 +1,266 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta name="robots" content="index, all" />
+    <script src="http://www.webglearth.com/v2/api.js"></script>
+    <title>Weather</title>
+    <script>
+      var map,marker;
+      function init() {
+        map = WE.map('map', {
+          center: [0,0],
+          zoom: 0,
+          dragging: true,
+          scrollWheelZoom: true
+        });
+
+        var baselayer = WE.tileLayer('https://webglearth.github.io/webglearth2-offline/{z}/{x}/{y}.jpg', {
+          tileSize: 256,
+          bounds: [[-85, -180], [85, 180]],
+          minZoom: 0,
+          maxZoom: 150,
+          attribution: 'WebGLEarth example',
+          tms: true
+        }).addTo(map);
+
+
+        //Print coordinates of the mouse
+        map.on('mousemove', function(e) {
+          document.getElementById('coords').innerHTML = e.latlng.lat + ', ' + e.latlng.lng;
+        });
+		
+		map.on('dblclick', function(e){
+			var k = "<b>Hiii !</b><br>"+e.latlng.lat+"<br>"+e.latlng.lng+"<br /><span style='font-size:10px;color:#999'></span>"
+			var la = Math.floor(e.latlng.lat);
+			var lg = Math.floor(e.latlng.lng);
+			marker = WE.marker([e.latlng.lat,e.latlng.lng]).addTo(map);
+			marker.bindPopup(k, {maxWidth: 150, closeButton: true}).openPopup();
+			document.getElementById("latt").value = e.latlng.lat;
+			document.getElementById("lnn").value = e.latlng.lng;
+			document.getElementById("frm1").submit();
+			document.getElementById("latt").value = "";
+			document.getElementById("lnn").value = "";
+		
+			/*fn = '../173.html';
+			window.open(fn);
+			setInterval(function(){ 
+				document.getElementById('iframe').src = fn;
+				document.getElementById('iframe').style.color = "white";
+				document.getElementById('iframe').contentDocument.body.firstChild.innerHTML;
+			}, 1000);*/
+
+			//fn = 'file:///C:/Users/Rithik/Desktop/sihtry/realweather/weather/'+la+''+lg+'.txt';
+			// document.getElementById('iframe').src = fn;
+			// document.getElementById('iframe').style.color = "white";
+			// document.getElementById('iframe').contentDocument.body.firstChild.innerHTML;
+
+			//alert("Getting weather of "+e.latlng.lat+';'+e.latlng.lng+' :-) ');
+			/*var openFile = function(event) {
+				var input = event.target;
+
+				var reader = new FileReader();
+				reader.onload = function(){
+				  var text = reader.result;
+				  var node = document.getElementById('output');
+				  node.innerText = text;
+				  console.log(reader.result.substring(0, 200));
+				};
+				reader.readAsText(fn);
+			  };*/
+/*
+			  var result = null;
+			  var xmlhttp = new XMLHttpRequest();
+			  xmlhttp.open("GET", filePath, false);
+			  xmlhttp.send();
+			  if (xmlhttp.status==200) {
+			    result = xmlhttp.responseText;
+			  }
+			  alert(result);*/
+			
+		});
+      }
+
+      function flyToJapan() {
+        map.fitBounds([[22, 122], [48, 154]]);
+        document.getElementById("mySidenav").style.width = "0";
+      }
+
+
+      function panTo(coords) {
+        map.panTo(coords);
+        document.getElementById("mySidenav").style.width = "0";
+      }
+	  
+	  function resett(coords){
+		map.panTo(coords);
+		marker.removeFrom(map);
+	  }
+	  
+	  function openNav() {
+		  document.getElementById("mySidenav").style.width = "100%";
+		}
+
+		function closeNav() {
+		  document.getElementById("mySidenav").style.width = "0";
+		}
+		/*
+		function readf(fname){
+			let reader = new FileReader();
+			reader.addEventListener("loadend", function(){
+				document.getElementById("det").innerText = reader.result;
+				console.log(reader.result);
+			});
+			reader.readAsDataURL('hello.txt');
+		}
+		
+		function loadXMLDoc(fname)
+		{
+			var xmlhttp;
+			if (window.XMLHttpRequest)
+			  {
+			  xmlhttp=new XMLHttpRequest();
+				 }
+			else
+			  {
+			  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+			  }
+			xmlhttp.onreadystatechange=function()
+			  {  
+			  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+				{   
+				document.getElementById("det").innerHTML=xmlhttp.responseText;
+				}
+			  }
+
+			xmlhttp.open("GET",fname,true);
+			xmlhttp.send();
+		}*/
+</script>
+	<script src="sketch.js"></script>
+    <style>
+      html, body{padding: 0; margin: 0;}
+      #map{top: 0; right: 0; bottom: 0; left: 0; background-image:url("milky.jpg"); position: absolute !important;}
+      #coords{position: absolute; bottom: 10px; right: 10px; z-index: 100000;color:white}
+      #buttons {position: absolute; top:0px; left: 10px;}
+      #layercontrol{position: absolute; top:10px; right: 10px;}
+	  
+	  .sidenav {
+		  height: 100%;
+		  width: 0;
+		  position: fixed;
+		  z-index: 1;
+		  top: 0;
+		  left: 0;
+		  opacity: 0.8;
+		  background-color: #111;
+		  overflow-x: hidden;
+		  transition: 0.5s;
+		  padding-top: 60px;
+		}
+		.sidenav a {
+		  padding: 8px 8px 8px 32px;
+		  text-decoration: none;
+		  font-size: 25px;
+		  color: #818181;
+		  display: block;
+		  transition: 0.3s;
+		}
+
+		.sidenav a:hover {
+		  color: #f1f1f1;
+		}
+
+		.sidenav .closebtn {
+		  position: absolute;
+		  top: 0;
+		  right: 25px;
+		  font-size: 36px;
+		  margin-left: 50px;
+		}
+
+		@media screen and (max-height: 450px) {
+		  .sidenav {padding-top: 15px;}
+		  .sidenav a {font-size: 18px;}
+		}
+
+
+		.box{
+		  width: 300px;
+		  padding: 40px;
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  transform: translate(-50%,-50%);
+		  background: #191919;
+		  text-align: center;
+		  z-index: 1;
+		}
+		.box h1{
+		  color: white;
+		  text-transform: uppercase;
+		  font-weight: 500;
+		}
+		.box input[type = "text"],.box input[type = "password"]{
+		  border:0;
+		  background: none;
+		  display: block;
+		  margin: 20px auto;
+		  text-align: center;
+		  border: 2px solid #3498db;
+		  padding: 14px 10px;
+		  width: 200px;
+		  outline: none;
+		  color: white;
+		  border-radius: 24px;
+		  transition: 0.25s;
+		}
+
+		.box input[type = "text"]:focus,.box input[type = "password"]:focus{
+		  width: 280px;
+		  border-color: #2ecc71;
+		}
+		.btn1{
+		  border:0;
+		  background: none;
+		  display: block;
+		  margin: 20px auto;
+		  text-align: center;
+		  border: 2px solid #2ecc71;
+		  padding: 14px 40px;
+		  outline: none;
+		  color: white;
+		  border-radius: 24px;
+		  transition: 0.25s;
+		  cursor: pointer;
+		}
+		.btn1:hover{
+		  background: #2ecc71;
+		}
+
+
+ </style>
+ </head>
+  <body onload="init()">
+    <div id="map"></div>
+    <div id="coords"></div>
+    <div id="buttons">
+	  <span style="font-size:30px;cursor:pointer;color:white" onclick="openNav()">&#9776;    Weather</span><br><br>
+	  <input type="text" id="temp" fixed/><br><br>
+	  <input type="text" id="sum" fixed/><br><br>
+     </div>
+
+     <div id="mySidenav" class="sidenav">
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a><br>
+		<a href="javascript:flyToJapan()">JAPAN</a>
+		<p>
+			<div id="box1">
+			  	<form id="frm1" class="box" action="/index1" method="post">
+			  		<input type="text" name="latt" id="latt" placeholder="Latitude">
+			  		<input type="text" name="lnn" id="lnn" placeholder="Longitude">
+			  		<button id="btn1" onclick="getloc()">GET WEATHER</button>
+				</form>
+			</div>
+		</p>
+	</div>
+  </body>
+</html>

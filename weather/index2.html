@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta name="robots" content="index, all" />
+    <script src="http://www.webglearth.com/v2/api.js"></script>
+    <title>Weather</title>
+    <link rel='icon' href='favicon.ico' type='image/x-icon'/ >
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script>
+    	var l1 = <%- JSON.stringify(lat1) %>;
+    	var l2 = <%- JSON.stringify(lan1) %>;
+    	var map,marker;
+      	function init() {
+        map = WE.map('map', {
+          center: [0,0],
+          zoom:3,
+          dragging: true,
+          scrollWheelZoom: true
+        });
+        var coords = [l1,l2];
+        map.panTo(coords);
+        var baselayer = WE.tileLayer('https://webglearth.github.io/webglearth2-offline/{z}/{x}/{y}.jpg', {
+                  tileSize: 256,
+                  bounds: [[-85, -180], [85, 180]],
+                  minZoom: 0,
+                  maxZoom: 150,
+                  attribution: 'WebGLEarth example',
+                  tms: true
+                }).addTo(map);
+
+
+        fixval();
+        // skyc();
+
+        // var op = "<%- JSON.stringify(temp) %> ";
+        // var img = "<%- ico %>"+".gif";
+
+        // var k = "<br><span style='font-size:25px'>"+op+"</span><span style='font-size:10px;color:#999'><img src="+img+" height='45px' width='45px'></span>";
+        mark = WE.marker([l1,l2]).addTo(map);
+        // mark.bindPopup(k, {maxWidth: 150, closeButton: true,}).openPopup();
+        map.on('mousemove', function(e) {
+                  document.getElementById('coords').innerHTML = e.latlng.lat + ', ' + e.latlng.lng;
+                });
+      }
+
+      function fixval() {
+        var today = new Date();
+        var day = today.getDay();
+        var daylist = ["Sunday","Monday","Tuesday","Wednesday ","Thursday","Friday","Saturday"];
+        document.getElementById("next-next-day").innerText = daylist[day+2];
+        document.getElementById("next-next-next-day").innerText = daylist[day+3];
+        document.getElementById("temp").innerText = "<%- JSON.stringify(temp) %> ";
+         document.getElementById("hum").innerText = "<%- JSON.stringify(hum) %> ";
+         document.getElementById("wp").innerText = "<%- JSON.stringify(wp) %> ";
+         document.getElementById("strd").innerText = "<%- strd %> ";
+         document.getElementById("sum").innerText = "<%- summ %> ";
+         var img = "<%- ico %>"+".gif";
+         var img1 = "<%- day1i %>"+".gif";
+         var img2 = "<%- day2i %>"+".gif";
+         var img3 = "<%- day3i %>"+".gif";
+         document.getElementById("iconn").src = img;
+         document.getElementById("day1i").src = img1;
+         document.getElementById("day2i").src = img2;
+         document.getElementById("day3i").src = img3;
+         document.getElementById("d1max").innerText = "<%- JSON.stringify(day1tma) %> ";
+         document.getElementById("d2max").innerText = "<%- JSON.stringify(day2tma) %> ";
+         document.getElementById("d3max").innerText = "<%- JSON.stringify(day3tma) %> ";
+         document.getElementById("d1min").innerText = "<%- JSON.stringify(day1tmi) %> ";
+         document.getElementById("d2min").innerText = "<%- JSON.stringify(day2tmi) %> ";
+         document.getElementById("d3min").innerText = "<%- JSON.stringify(day3tmi) %> ";
+         //alert(img);
+      }
+
+      function flycity(h1,h2){
+          document.getElementById("latt").value = h1;
+      document.getElementById("lnn").value = h2;
+      document.getElementById("frm1").submit();
+      document.getElementById("latt").value = "";
+      document.getElementById("lnn").value = "";
+      }
+
+      function skyc(){
+        var skycons = new Skycons({"color":"black"});
+        skycons.add(document.getElementById("icon"),Skycons.RAIN);
+        skycons.play();
+      }
+
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "100%";
+        closeNav1();
+        mark.closePopup();
+        mark.removeFrom(map);
+      }
+
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("mySidenav1").style.width = "300px";
+        document.getElementById("mySidenav1").style.color = "white";
+        mark.addTo(map);
+        mark.openPopup();
+      }
+      function closeNav1() {
+        document.getElementById("mySidenav1").style.width = "0";
+        document.getElementById("mySidenav1").style.color = "black";
+        document.getElementById("arrow").style.display = "inline";
+      }
+
+      function openNav1() {
+        document.getElementById("mySidenav1").style.width = "300px";
+        document.getElementById("mySidenav1").style.color = "white";
+        document.getElementById("arrow").style.display = "hidden";
+      }
+
+</script>
+
+ </head>
+  <body onload="init()">
+    <div id="map"></div>
+    <div id="buttons">
+	  <span style="font-size:30px;cursor:pointer;color:white" onclick="openNav()">&#9776;Weather</span><br><br></div>
+    <div id="mySidenav" style="font-size: 30px" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a><br>
+	<a href="index.html"><button class="glow-on-hover" type="button">HOME</button></a>
+    <a href="javascript:flycity(13.0827,80.2707)"><button class="glow-on-hover" type="button">CHENNAI</button></a>
+    <a href="javascript:flycity(-33.865143,151.209900)"><button class="glow-on-hover" type="button">SYDNEY</button></a>
+    <a href="javascript:flycity(-33.9249,18.4241)"><button class="glow-on-hover" type="button">CAPE TOWN</button></a>
+    <a href="javascript:flycity(59.9139,10.7522)"><button class="glow-on-hover" type="button">OSLO</button></a>
+    <a href="javascript:flycity(-22.9068,-43.1729)"><button class="glow-on-hover" type="button">RIO DE JANERIO</button></a>
+    <a href="javascript:flycity(45.4215,-75.6972)"><button class="glow-on-hover" type="button">OTTAWA</button></a>
+    <a href="javascript:flycity(-18.1248,178.4501)"><button class="glow-on-hover" type="button">SUVA</button></a>
+    <p>
+      <div id="box1">
+          <form id="frm1" class="box" action="/index1" method="post">
+            <input type="text" name="latt" id="latt" placeholder="Latitude">
+            <input type="text" name="lnn" id="lnn" placeholder="Longitude">
+            <button id="btn1" class="glow-on-hover" >GET WEATHER</button>
+        </form>
+      </div>
+    </p>
+  </div>
+
+
+  <div id="mySidenav1" class="sidenav1">
+    <div style="text-align: center">
+      <a href="#"><span id="temp" style="color:black;font-size: 50px"></span><sup><span style="color:black;font-size: 20px">&#8451;</span></sup><br><span><img src="" height="80px" width="80px" id="iconn"></span></a>
+      <a href="#"><span id="sum" style="color:black;font-size: 16px"></span></a>
+      <a href="#"><span style="color:black;font-size: 20px">Humidity:   </span><span id="hum" style="color:black;font-size: 16px"></span><span style="color:black;font-size: 10px">g/m^3</span></a>
+      <a href="#"><span style="color:black;font-size: 20px">WindSpeed:   </span><span id="wp" style="color:black;font-size: 16px"></span><span style="color:black;font-size: 10px">km/hour</span></a>
+      <a href="#"><span style="color:black;font-size: 20px">Possible Storms(distance):   </span><span id="strd" style="color:black;font-size: 16px"></span><span style="color:black;font-size: 10px">kms</span></a>
+    </div>
+      <a href="#">
+        
+        <table style="width: 100%;border-collapse: separate;border-spacing: 0 15px">
+          <tr>
+            <td colspan="2" style="color: black;font-size: 12px">
+              Tomorrow
+            </td>
+          </tr>
+          <tr>
+            <td rowspan="2"><img src="" id="day1i" height="60px" width="60px"></td>
+            <td><span style="font-size: 25px;color:black" id="d1max">56</span><span style="color: black;font-size: 10px">&#8451;</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-size: 25px;color:black" id="d1min">48</span><span style="color: black;font-size: 10px">&#8451;</span></td>
+          </tr>
+          <tr>
+            <td colspan="2" style="color: black;font-size: 12px">
+              <span id="next-next-day"></span>
+            </td>
+          </tr>
+          <tr>
+            <td rowspan="2"><img src="" id="day2i" height="60px" width="60px"></td>
+            <td><span style="font-size: 25px;color:black" id="d2max"></span><span style="color: black;font-size: 10px">&#8451;</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-size: 25px;color:black" id="d2min"></span><span style="color: black;font-size: 10px">&#8451;</span></td>
+          </tr>
+          <tr>
+            <td colspan="2" style="color: black;font-size: 12px">
+              <span id="next-next-next-day"></span>
+            </td>
+          </tr>
+          <tr>
+            <td rowspan="2"><img src="" id="day3i" height="60px" width="60px"></td>
+            <td><span style="font-size: 25px;color:black" id="d3max"></span><span style="color: black;font-size: 10px">&#8451;</span></td>
+          </tr>
+          <tr>
+            <td><span style="font-size: 25px;color:black" id="d3min"></span><span style="color: black;font-size: 10px">&#8451;</span></td>
+          </tr>
+        </table>
+
+      </a>
+
+    </div>
+</body>
+</html>

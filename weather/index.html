@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta name="robots" content="index, all" />
+    <script src="http://www.webglearth.com/v2/api.js"></script>
+    <title>Weather</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+    <link rel='icon' href='favicon.ico' type='image/x-icon'/ >
+    <script>
+      var map,marker;
+      function init() {
+        map = WE.map('map', {
+        	//center : [0,0],
+          center: [20.597,78.9629],
+          zoom: 3,
+          dragging: true,
+          scrollWheelZoom: true
+        });
+
+        var baselayer = WE.tileLayer('https://webglearth.github.io/webglearth2-offline/{z}/{x}/{y}.jpg', {
+          tileSize: 256,
+          bounds: [[-85, -180], [85, 180]],
+          minZoom: 0,
+          maxZoom: 150,
+          attribution: 'WebGLEarth example',
+          tms: true
+        }).addTo(map);
+
+        map.on('mousemove', function(e) {
+          document.getElementById('coords').innerHTML = e.latlng.lat + ', ' + e.latlng.lng;
+        });
+		
+		map.on('dblclick', function(e){
+			var k = "<b>Hiii !</b><br>"+e.latlng.lat+"<br>"+e.latlng.lng+"<br /><span style='font-size:10px;color:#999'></span>"
+			var la = Math.floor(e.latlng.lat);
+			var lg = Math.floor(e.latlng.lng);
+			marker = WE.marker([e.latlng.lat,e.latlng.lng]).addTo(map);
+			marker.bindPopup(k, {maxWidth: 150, closeButton: true}).openPopup();
+			document.getElementById("latt").value = e.latlng.lat;
+			document.getElementById("lnn").value = e.latlng.lng;
+			document.getElementById("frm1").submit();
+			document.getElementById("latt").value = "";
+			document.getElementById("lnn").value = "";
+			closeNav();
+			
+			
+		});
+      }
+
+      function flycity(h1,h2){
+      	document.getElementById("latt").value = h1;
+		document.getElementById("lnn").value = h2;
+		document.getElementById("frm1").submit();
+		document.getElementById("latt").value = "";
+		document.getElementById("lnn").value = "";
+      }
+
+      function flyToJapan() {
+        map.fitBounds([[22, 122], [48, 154]]);
+        document.getElementById("mySidenav").style.width = "0";
+      }
+
+
+      function panTo(coords) {
+        map.panTo(coords);
+        document.getElementById("mySidenav").style.width = "0";
+      }
+	  
+	  function resett(coords){
+		map.panTo(coords);
+		marker.removeFrom(map);
+	  }
+	  
+	  function openNav() {
+		  document.getElementById("mySidenav").style.width = "100%";
+		}
+
+		function closeNav() {
+		  document.getElementById("mySidenav").style.width = "0";
+		}
+
+		function gps(){
+			navigator.geolocation.getCurrentPosition(async position => {
+				lat = position.coords.latitude;
+				lon = position.coords.longitude;
+			});
+			map.panTo([lat,lon]);
+			//alert(lat+","+lon);
+			marker = WE.marker([lat,lon]).addTo(map);
+			document.getElementById("latt").value = lat;
+			document.getElementById("lnn").value = lon;
+			document.getElementById("frm1").submit();
+			document.getElementById("latt").value = "";
+			document.getElementById("lnn").value = "";
+		}
+
+</script>
+	<script src="sketch.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+ </head>
+  <body onload="init()">
+    <div id="map"></div>
+    <div id="coords"></div>
+    <div id="buttons">
+	  <span style="font-size:30px;cursor:pointer;color:white" onclick="openNav()">&#9776;    Weather</span><br><br>
+	 </div>
+<div class="fixed-action-btn horizontal" style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-large red" href="javascript:gps()">
+      <i class="large material-icons">gps_fixed</i>
+    </a>
+</div>
+      
+
+     <div id="mySidenav" class="sidenav">
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a><br>
+		<div style="float: left">
+		<a href="javascript:flycity(13.0827,80.2707)"><button class="glow-on-hover" type="button">CHENNAI</button></a>
+		<a href="javascript:flycity(-33.865143,151.209900)"><button class="glow-on-hover" type="button">SYDNEY</button></a>
+		<a href="javascript:flycity(-33.9249,18.4241)"><button class="glow-on-hover" type="button">CAPE TOWN</button></a>
+		<a href="javascript:flycity(59.9139,10.7522)"><button class="glow-on-hover" type="button">OSLO</button></a>
+		<a href="javascript:flycity(-22.9068,-43.1729)"><button class="glow-on-hover" type="button">RIO DE JANERIO</button></a>
+		<a href="javascript:flycity(45.4215,-75.6972)"><button class="glow-on-hover" type="button">OTTAWA</button></a>
+		<a href="javascript:flycity(-18.1248,178.4501)"><button class="glow-on-hover" type="button">SUVA</button></a>
+	</div>
+		<p>
+			<div id="box1">
+			  	<form id="frm1" class="box" action="/index1" method="post">
+			  		<input type="text" name="latt" id="latt" placeholder="Latitude">
+			  		<input type="text" name="lnn" id="lnn" placeholder="Longitude">
+			  		<button id="btn1" class="glow-on-hover" onclick="loc()">GET WEATHER</button>
+				</form>
+			</div>
+		</p>
+	</div>
+  </body>
+</html>

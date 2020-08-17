@@ -1,0 +1,14 @@
+dlhi: 28.644800,77.216721
+tokyo: 35.652832,139.839478
+sydney: -33.865143,151.209900.
+oslo:
+paris:
+beijing:
+istanbul:
+cape town:
+casa blanca:
+new york:
+los angles:
+rio de janerio:
+lima:
+suva:

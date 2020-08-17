@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>HEllO</title>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
+<script type="text/javascript">
+	var mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
+	 
+	mapboxgl.accessToken = 'pk.eyJ1Ijoicml0aGlrOTk5OSIsImEiOiJjazVsenYxeTgwZ3U0M2pyd2t5NjFkZHNzIn0.3ovt5xVvSxDrTd6ZEGyXjQ';
+	var map = new mapboxgl.Map({
+	container: 'man',
+	style: 'mapbox://styles/mapbox/streets-v11'
+	});
+</script>
+</head>
+<body>
+<div id="man"></div>
+</body>
+</html>

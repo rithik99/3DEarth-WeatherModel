@@ -1,0 +1,50 @@
+{
+  "name": "dark-sky-api",
+  "version": "0.6.32",
+  "description": "a simple and robust dark sky api service for client-side js",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel ./src/dark-sky-api.js --out-file ./dist/dark-sky-api.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deanbot/dark-sky-api.git"
+  },
+  "keywords": [
+    "dark",
+    "sky",
+    "darsky",
+    "weather",
+    "forecast",
+    "forecast-io",
+    "forecast.io",
+    "forecast"
+  ],
+  "author": "Dean Verleger",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/deanbot/dark-sky-api/issues"
+  },
+  "homepage": "https://github.com/deanbot/dark-sky-api#readme",
+  "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-plugin-add-module-exports": "1.0.2",
+    "babel-plugin-transform-class-properties": "6.24.1",
+    "babel-preset-env": "1.7.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dark-sky-skeleton": "^0.1.46",
+    "ejs": "^3.0.1",
+    "ejs-lint": "^1.0.1",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "geo-loc-utils": "0.0.2",
+    "mapbox-gl": "^1.6.1",
+    "moment": "^2.22.2",
+    "nodemon": "^2.0.2",
+    "path": "^0.12.7",
+    "skycons": "^1.0.0",
+    "web-midi-api": "^2.0.7"
+  }
+}
